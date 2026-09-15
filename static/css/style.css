@@ -1,0 +1,456 @@
+ * {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+
+    font-family: Arial, sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #8f101d,
+            #43000a
+        );
+}
+
+
+/* PAGE */
+
+.page {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 25px 15px;
+}
+
+
+/* DONATION CARD */
+
+.donation-card {
+    width: 100%;
+    max-width: 500px;
+
+    background: #fff8e7;
+
+    border: 5px solid #d49b2c;
+    border-radius: 25px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+
+/* HEADER */
+
+.header {
+    text-align: center;
+
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+
+    border-bottom: 2px solid #d9b35b;
+}
+
+
+.ganesh-symbol {
+    font-size: 60px;
+    margin-bottom: 5px;
+}
+
+
+.header h1 {
+    margin: 0;
+
+    color: #8b0715;
+
+    font-size: 32px;
+    font-weight: 800;
+
+    line-height: 1.2;
+}
+
+
+.header h2 {
+    margin: 7px 0;
+
+    color: #b4770b;
+
+    font-size: 27px;
+
+    line-height: 1.2;
+}
+
+
+.header p {
+    margin-top: 12px;
+
+    color: #6c0713;
+
+    font-size: 14px;
+
+    letter-spacing: 2px;
+
+    font-weight: bold;
+}
+
+
+/* FORM */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+
+.form-group > label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #54151b;
+
+    font-weight: bold;
+    font-size: 15px;
+}
+
+
+/* INPUT + SELECT */
+
+input,
+select {
+    width: 100%;
+
+    padding: 14px;
+
+    border: 2px solid #dfc98f;
+    border-radius: 12px;
+
+    background: white;
+
+    font-size: 16px;
+
+    outline: none;
+
+    min-height: 50px;
+}
+
+
+input:focus,
+select:focus {
+    border-color: #b4770b;
+
+    box-shadow:
+        0 0 0 3px rgba(180, 119, 11, 0.12);
+}
+
+
+/* AMOUNT */
+
+.amount-input {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+
+    background: white;
+
+    border: 2px solid #dfc98f;
+    border-radius: 12px;
+
+    overflow: hidden;
+}
+
+
+.amount-input span {
+    flex-shrink: 0;
+
+    padding: 13px 16px;
+
+    color: #8b0715;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    background: #fff1c7;
+}
+
+
+.amount-input input {
+    min-width: 0;
+
+    border: none;
+    border-radius: 0;
+}
+
+
+/* RADIO */
+
+.radio-group {
+    display: flex;
+
+    gap: 30px;
+
+    flex-wrap: wrap;
+}
+
+
+.radio-group label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    font-weight: normal;
+
+    cursor: pointer;
+}
+
+
+.radio-group input {
+    width: auto;
+
+    min-height: auto;
+}
+
+
+/* BUTTON */
+
+button {
+    width: 100%;
+
+    padding: 16px;
+
+    border: none;
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #8b0715,
+            #c51b29,
+            #8b0715
+        );
+
+    color: #ffe29a;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 15px rgba(100, 0, 10, 0.3);
+
+    transition: 0.2s;
+
+    min-height: 54px;
+}
+
+
+button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 9px 20px rgba(100, 0, 10, 0.4);
+}
+
+
+/* FOOTER */
+
+.footer-text {
+    text-align: center;
+
+    margin-top: 22px;
+
+    color: #8b0715;
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+/* ================================= */
+/* MOBILE */
+/* ================================= */
+
+@media (max-width: 600px) {
+
+    .page {
+        min-height: 100vh;
+
+        padding: 12px 8px;
+
+        align-items: flex-start;
+    }
+
+
+    .donation-card {
+        width: 100%;
+
+        margin-top: 10px;
+
+        padding: 20px 16px;
+
+        border-width: 3px;
+        border-radius: 18px;
+    }
+
+
+    .header {
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+    }
+
+
+    .ganesh-symbol {
+        font-size: 48px;
+    }
+
+
+    .header h1 {
+        font-size: 26px;
+    }
+
+
+    .header h2 {
+        font-size: 22px;
+    }
+
+
+    .header p {
+        font-size: 12px;
+
+        letter-spacing: 1.5px;
+    }
+
+
+    .form-group {
+        margin-bottom: 17px;
+    }
+
+
+    .form-group > label {
+        font-size: 14px;
+    }
+
+
+    input,
+    select {
+        padding: 13px;
+
+        font-size: 16px;
+
+        min-height: 48px;
+    }
+
+
+    .amount-input span {
+        padding: 12px 14px;
+
+        font-size: 20px;
+    }
+
+
+    .radio-group {
+        gap: 18px;
+    }
+
+
+    button {
+        padding: 15px;
+
+        font-size: 17px;
+
+        min-height: 52px;
+    }
+
+
+    .footer-text {
+        font-size: 14px;
+
+        margin-top: 18px;
+    }
+}
+
+
+/* ================================= */
+/* SMALL MOBILE */
+/* ================================= */
+
+@media (max-width: 380px) {
+
+    .page {
+        padding: 8px 5px;
+    }
+
+
+    .donation-card {
+        padding: 18px 13px;
+
+        border-radius: 15px;
+    }
+
+
+    .ganesh-symbol {
+        font-size: 42px;
+    }
+
+
+    .header h1 {
+        font-size: 23px;
+    }
+
+
+    .header h2 {
+        font-size: 20px;
+    }
+
+
+    .header p {
+        font-size: 11px;
+    }
+
+
+    input,
+    select {
+        font-size: 16px;
+
+        padding: 12px;
+    }
+
+
+    button {
+        font-size: 16px;
+    }
+}
+
+
+/* ================================= */
+/* TABLET */
+/* ================================= */
+
+@media (min-width: 601px) and (max-width: 900px) {
+
+    .page {
+        padding: 25px;
+    }
+
+
+    .donation-card {
+        max-width: 520px;
+    }
+}

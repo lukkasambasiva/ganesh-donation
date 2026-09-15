@@ -1,0 +1,323 @@
+ * {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+body {
+    background: #eeeeee;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+
+/* =========================================
+   RECEIPT CANVAS
+========================================= */
+
+.receipt-wrapper {
+    position: relative;
+
+    width: 1024px;
+    height: 1536px;
+
+    margin: 20px auto;
+
+    overflow: hidden;
+
+    background: #ffffff;
+}
+
+
+/* =========================================
+   ORIGINAL BAPPA IMAGE
+========================================= */
+
+.receipt-background {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 1024px;
+    height: 1536px;
+
+    display: block;
+
+    z-index: 1;
+}
+
+
+/* =========================================
+   DONOR DETAILS BOX
+
+   Bappa blank box:
+   Left  ≈ 450px
+   Top   ≈ 650px
+   Right ≈ 995px
+   Bottom≈ 1398px
+========================================= */
+
+.donor-details {
+    position: absolute;
+
+    left: 455px;
+    top: 650px;
+
+    width: 535px;
+    height: 735px;
+
+    padding: 28px 30px;
+
+    z-index: 2;
+
+    color: #351313;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   RECEIPT NUMBER
+========================================= */
+
+.receipt-number {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 28px;
+
+    font-size: 20px;
+}
+
+.receipt-number span {
+    font-weight: bold;
+}
+
+.receipt-number strong {
+    color: #8b0715;
+}
+
+
+/* =========================================
+   DETAIL ROW
+========================================= */
+
+.detail-row {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 35px 180px 20px 1fr;
+
+    align-items: center;
+
+    column-gap: 5px;
+
+    min-height: 62px;
+
+    border-bottom: 1px solid rgba(100, 40, 20, 0.22);
+
+    font-size: 20px;
+}
+
+
+/* ICON */
+
+.detail-row .icon {
+    font-size: 21px;
+
+    text-align: center;
+}
+
+
+/* LABEL */
+
+.detail-row .label {
+    font-weight: bold;
+
+    white-space: nowrap;
+}
+
+
+/* COLON */
+
+.detail-row .colon {
+    font-weight: bold;
+
+    text-align: center;
+}
+
+
+/* VALUE */
+
+.detail-row .value {
+    text-align: right;
+
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* AMOUNT */
+
+.detail-row .amount {
+    color: #8b0715;
+
+    font-size: 22px;
+
+    font-weight: bold;
+}
+
+
+/* DATE */
+
+.detail-row .date {
+    font-size: 17px;
+}
+
+
+/* =========================================
+   THANK YOU
+========================================= */
+
+.thank-you {
+    width: 100%;
+
+    margin-top: 32px;
+
+    text-align: center;
+}
+
+.thank-you h2 {
+    margin: 0 0 12px;
+
+    color: #8b0715;
+
+    font-size: 28px;
+}
+
+.thank-you p {
+    margin: 8px 0;
+
+    font-size: 17px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.actions {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 20px 0;
+}
+
+.actions button {
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 13px 22px;
+
+    background: #8b0715;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.actions button:hover {
+    background: #a30b1b;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 1024px) {
+
+    body {
+        background: #eeeeee;
+    }
+
+    .receipt-wrapper {
+
+        /*
+         IMPORTANT:
+         Original receipt remains
+         exactly 1024 x 1536.
+
+         Only visual scale changes.
+        */
+
+        width: 1024px;
+        height: 1536px;
+
+        margin: 10px 0;
+
+        transform-origin: top left;
+
+        transform: scale(
+            calc(100vw / 1024)
+        );
+    }
+
+
+    .actions {
+        margin-top: 15px;
+
+        position: relative;
+
+        width: 100%;
+    }
+}
+
+
+/* =========================================
+   VERY SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+
+    .actions {
+        gap: 7px;
+    }
+
+    .actions button {
+        padding: 11px 14px;
+
+        font-size: 14px;
+    }
+}
