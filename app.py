@@ -12,7 +12,6 @@ app = Flask(__name__)
 # MySQL Connection
 # -----------------------------
 def get_db_connection():
-
     return mysql.connector.connect(
         host=os.environ.get("DB_HOST"),
         port=int(os.environ.get("DB_PORT")),
@@ -27,7 +26,6 @@ def get_db_connection():
 # -----------------------------
 @app.route("/")
 def home():
-
     return render_template("index.html")
 
 
@@ -36,7 +34,6 @@ def home():
 # -----------------------------
 @app.route("/donate", methods=["POST"])
 def donate():
-
     donor_name = request.form["donor_name"].strip()
     phone = request.form["phone"].strip()
     amount = request.form["amount"]
@@ -61,11 +58,9 @@ def donate():
     )
 
     cursor.execute(query, values)
-
     connection.commit()
 
     donation_id = cursor.lastrowid
-
     receipt_no = f"GNY-{donation_id:05d}"
 
     update_query = """
@@ -104,7 +99,6 @@ def donate():
 # -----------------------------
 @app.route("/admin")
 def admin():
-
     selected_date = request.args.get("date", "")
 
     connection = get_db_connection()
@@ -113,9 +107,7 @@ def admin():
     # -------------------------
     # Donations
     # -------------------------
-
     if selected_date:
-
         cursor.execute("""
             SELECT
                 receipt_no,
@@ -129,9 +121,7 @@ def admin():
             WHERE DATE(donation_date) = %s
             ORDER BY id DESC
         """, (selected_date,))
-
     else:
-
         cursor.execute("""
             SELECT
                 receipt_no,
@@ -151,17 +141,13 @@ def admin():
     # -------------------------
     # Total Donors
     # -------------------------
-
     if selected_date:
-
         cursor.execute("""
             SELECT COUNT(*)
             FROM donations
             WHERE DATE(donation_date) = %s
         """, (selected_date,))
-
     else:
-
         cursor.execute("""
             SELECT COUNT(*)
             FROM donations
@@ -173,17 +159,13 @@ def admin():
     # -------------------------
     # Total Amount
     # -------------------------
-
     if selected_date:
-
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
             FROM donations
             WHERE DATE(donation_date) = %s
         """, (selected_date,))
-
     else:
-
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
             FROM donations
@@ -195,18 +177,14 @@ def admin():
     # -------------------------
     # Cash
     # -------------------------
-
     if selected_date:
-
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
             FROM donations
             WHERE payment_method = 'Cash'
             AND DATE(donation_date) = %s
         """, (selected_date,))
-
     else:
-
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
             FROM donations
@@ -219,18 +197,14 @@ def admin():
     # -------------------------
     # UPI
     # -------------------------
-
     if selected_date:
-
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
             FROM donations
             WHERE payment_method = 'UPI'
             AND DATE(donation_date) = %s
         """, (selected_date,))
-
     else:
-
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
             FROM donations
@@ -243,18 +217,14 @@ def admin():
     # -------------------------
     # Bank Transfer
     # -------------------------
-
     if selected_date:
-
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
             FROM donations
             WHERE payment_method = 'Bank Transfer'
             AND DATE(donation_date) = %s
         """, (selected_date,))
-
     else:
-
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
             FROM donations
@@ -266,7 +236,6 @@ def admin():
 
     cursor.close()
     connection.close()
-
 
     return render_template(
         "admin.html",
@@ -285,15 +254,12 @@ def admin():
 # -----------------------------
 @app.route("/admin/export")
 def export_csv():
-
     selected_date = request.args.get("date", "")
 
     connection = get_db_connection()
     cursor = connection.cursor()
 
-
     if selected_date:
-
         cursor.execute("""
             SELECT
                 receipt_no,
@@ -307,9 +273,7 @@ def export_csv():
             WHERE DATE(donation_date) = %s
             ORDER BY id DESC
         """, (selected_date,))
-
     else:
-
         cursor.execute("""
             SELECT
                 receipt_no,
@@ -325,7 +289,6 @@ def export_csv():
 
     donations = cursor.fetchall()
 
-
     cursor.close()
     connection.close()
 
@@ -333,9 +296,7 @@ def export_csv():
     # -------------------------
     # Create CSV
     # -------------------------
-
     output = io.StringIO()
-
     writer = csv.writer(output)
 
     writer.writerow([
@@ -348,9 +309,7 @@ def export_csv():
         "Date & Time"
     ])
 
-
     for donation in donations:
-
         writer.writerow([
             donation[0],
             donation[1],

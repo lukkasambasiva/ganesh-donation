@@ -1,0 +1,399 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Donation Receipt</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/receipt.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     RECEIPT IMAGE AREA
+========================= -->
+
+<div id="receipt" class="receipt-wrapper">
+
+
+    <!-- ORIGINAL BAPPA IMAGE -->
+
+    <img
+        src="{{ url_for('static', filename='Bappa.png') }}"
+        class="receipt-background"
+        alt="Donation Receipt"
+    >
+
+
+    <!-- DONOR DETAILS -->
+
+    <div class="donor-details">
+
+
+        <!-- Receipt Number -->
+
+        <div class="receipt-number">
+
+            <span>Receipt No.</span>
+
+            <strong>
+                {{ receipt_no }}
+            </strong>
+
+        </div>
+
+
+        <!-- Name -->
+
+        <div class="detail-row">
+
+            <div class="icon">👤</div>
+
+            <div class="label">
+                Donor Name
+            </div>
+
+            <div class="colon">
+                :
+            </div>
+
+            <div class="value">
+                {{ donor_name }}
+            </div>
+
+        </div>
+
+
+        <!-- Phone -->
+
+        <div class="detail-row">
+
+            <div class="icon">📞</div>
+
+            <div class="label">
+                Phone Number
+            </div>
+
+            <div class="colon">
+                :
+            </div>
+
+            <div class="value">
+                {{ phone }}
+            </div>
+
+        </div>
+
+
+        <!-- Amount -->
+
+        <div class="detail-row">
+
+            <div class="icon">₹</div>
+
+            <div class="label">
+                Donation Amount
+            </div>
+
+            <div class="colon">
+                :
+            </div>
+
+            <div class="value amount">
+                ₹ {{ amount }}
+            </div>
+
+        </div>
+
+
+        <!-- Payment -->
+
+        <div class="detail-row">
+
+            <div class="icon">💳</div>
+
+            <div class="label">
+                Payment Method
+            </div>
+
+            <div class="colon">
+                :
+            </div>
+
+            <div class="value">
+                {{ payment_method }}
+            </div>
+
+        </div>
+
+
+        <!-- Date -->
+
+        <div class="detail-row">
+
+            <div class="icon">📅</div>
+
+            <div class="label">
+                Date & Time
+            </div>
+
+            <div class="colon">
+                :
+            </div>
+
+            <div class="value date">
+                {{ date }}
+            </div>
+
+        </div>
+
+
+        <!-- Thank You -->
+
+        <div class="thank-you">
+
+            <h2>Thank You! 🙏</h2>
+
+            <p>
+                Your generous donation helps us
+                in serving our community and
+                keeping the spirit of Lord Ganesha alive.
+            </p>
+
+            <p>
+                May Lord Ganesha bless you and
+                your family with happiness,
+                prosperity and good health.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     ACTION BUTTONS
+========================= -->
+
+<div class="actions">
+
+    <button onclick="downloadReceipt()">
+        📥 Download JPG
+    </button>
+
+    <button onclick="shareReceipt()">
+        📤 Share Receipt
+    </button>
+
+</div>
+
+
+<!-- HTML2CANVAS -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+</script>
+
+
+<script>
+
+
+// ========================================
+// CREATE RECEIPT IMAGE
+// ========================================
+
+  async function createReceiptImage() {
+
+    const receipt =
+        document.getElementById("receipt");
+
+    const image =
+        document.querySelector(".receipt-background");
+
+    if (!image.complete) {
+
+        await new Promise((resolve) => {
+
+            image.onload = resolve;
+
+        });
+
+    }
+
+    const canvas =
+        await html2canvas(receipt, {
+
+            scale: 2,
+
+            width: 1024,
+
+            height: 1536,
+
+            useCORS: true,
+
+            backgroundColor: "#ffffff",
+
+            logging: false
+
+        });
+
+    return canvas;
+}
+
+
+
+// ========================================
+// DOWNLOAD JPG
+// ========================================
+
+async function downloadReceipt() {
+
+    try {
+
+        const canvas =
+            await createReceiptImage();
+
+
+        const link =
+            document.createElement("a");
+
+
+        link.download =
+            "{{ receipt_no }}.jpg";
+
+
+        link.href =
+            canvas.toDataURL(
+                "image/jpeg",
+                0.95
+            );
+
+
+        link.click();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Receipt image create avvaledu. Please try again."
+        );
+
+    }
+
+}
+
+
+
+// ========================================
+// SHARE RECEIPT
+// ========================================
+
+async function shareReceipt() {
+
+    try {
+
+        const canvas =
+            await createReceiptImage();
+
+
+        canvas.toBlob(
+            async function(blob) {
+
+
+                const file =
+                    new File(
+                        [blob],
+                        "{{ receipt_no }}.jpg",
+                        {
+                            type: "image/jpeg"
+                        }
+                    );
+
+
+                // Mobile Share Support
+
+                if (
+                    navigator.share &&
+                    navigator.canShare &&
+                    navigator.canShare({
+                        files: [file]
+                    })
+                ) {
+
+                    await navigator.share({
+
+                        title:
+                            "Ganesh Donation Receipt",
+
+                        text:
+                            "Sri Bala Ganesh Mahotsavam - Donation Receipt",
+
+                        files: [file]
+
+                    });
+
+                }
+
+                else {
+
+                    // Fallback
+
+                    const link =
+                        document.createElement("a");
+
+
+                    link.download =
+                        "{{ receipt_no }}.jpg";
+
+
+                    link.href =
+                        URL.createObjectURL(blob);
+
+
+                    link.click();
+
+
+                    alert(
+                        "Direct sharing not supported. Receipt downloaded."
+                    );
+
+                }
+
+
+            },
+
+            "image/jpeg",
+
+            0.95
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
