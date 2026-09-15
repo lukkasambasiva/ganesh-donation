@@ -1,0 +1,171 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ganesh Donation</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="donation-card">
+
+        <!-- Header -->
+        <div class="header">
+
+            <div class="ganesh-symbol">🙏</div>
+
+            <h1>శ్రీ బాల గణేష్</h1>
+
+            <h2>మహోత్సవం</h2>
+
+            <p>DONATION MANAGEMENT</p>
+
+        </div>
+
+
+        <!-- Form -->
+        <form action="/donate" method="POST">
+
+            <!-- Name -->
+            <div class="form-group">
+
+                <label>Donor Name</label>
+
+                <input
+                    type="text"
+                    name="donor_name"
+                    placeholder="Enter donor name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Phone -->
+            <div class="form-group">
+
+                <label>Phone Number</label>
+
+                <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter 10 digit phone number"
+                    maxlength="10"
+                    pattern="[0-9]{10}"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Amount -->
+            <div class="form-group">
+
+                <label>Donation Amount</label>
+
+                <div class="amount-input">
+
+                    <span>₹</span>
+
+                    <input
+                        type="number"
+                        name="amount"
+                        placeholder="Enter amount"
+                        min="1"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Payment -->
+            <div class="form-group">
+
+                <label>Payment Method</label>
+
+                <select name="payment_method" required>
+
+                    <option value="">
+                        Select Payment Method
+                    </option>
+
+                    <option value="Cash">
+                        💵 Cash
+                    </option>
+
+                    <option value="UPI">
+                        📱 UPI
+                    </option>
+
+                    <option value="Bank Transfer">
+                        🏦 Bank Transfer
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- WhatsApp -->
+            <div class="form-group">
+
+                <label>WhatsApp Available?</label>
+
+                <div class="radio-group">
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="whatsapp"
+                            value="Yes"
+                            required
+                        >
+                        Yes
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="whatsapp"
+                            value="No"
+                        >
+                        No
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- Submit -->
+            <button type="submit">
+
+                🙏 Submit Donation
+
+            </button>
+
+        </form>
+
+
+        <div class="footer-text">
+
+            || శ్రీ గణేశాయ నమః ||
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
