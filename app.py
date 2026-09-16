@@ -2,10 +2,27 @@ from flask import Flask, render_template, request, Response
 import mysql.connector
 import os
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import csv
 import io
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
 
 app = Flask(__name__)
+
+
+# -----------------------------
+# India Time (IST)
+# -----------------------------
+def get_ist_now():
+    utc_now = datetime.now(ZoneInfo("UTC"))
+    ist_now = utc_now.astimezone(
+        ZoneInfo("Asia/Kolkata")
+    )
+
+    return ist_now.replace(tzinfo=None)
 
 
 # -----------------------------
@@ -13,11 +30,12 @@ app = Flask(__name__)
 # -----------------------------
 def get_db_connection():
     return mysql.connector.connect(
-        host=os.environ.get("DB_HOST"),
-        port=int(os.environ.get("DB_PORT")),
-        user=os.environ.get("DB_USER"),
-        password=os.environ.get("DB_PASSWORD"),
-        database=os.environ.get("DB_NAME")
+        host=os.environ["DB_HOST"],
+        port=int(os.environ["DB_PORT"]),
+        user=os.environ["DB_USER"],
+        password=os.environ["DB_PASSWORD"],
+        database=os.environ["DB_NAME"],
+        unix_socket=None
     )
 
 
@@ -34,19 +52,24 @@ def home():
 # -----------------------------
 @app.route("/donate", methods=["POST"])
 def donate():
+
     donor_name = request.form["donor_name"].strip()
     phone = request.form["phone"].strip()
     amount = request.form["amount"]
     payment_method = request.form["payment_method"]
     whatsapp = request.form["whatsapp"]
 
+    # Current India date & time
+    ist_now = get_ist_now()
+
     connection = get_db_connection()
     cursor = connection.cursor()
 
+    # Save donation with IST date/time
     query = """
         INSERT INTO donations
-        (donor_name, phone, amount, payment_method, whatsapp)
-        VALUES (%s, %s, %s, %s, %s)
+        (donor_name, phone, amount, payment_method, whatsapp, donation_date)
+        VALUES (%s, %s, %s, %s, %s, %s)
     """
 
     values = (
@@ -54,13 +77,15 @@ def donate():
         phone,
         amount,
         payment_method,
-        whatsapp
+        whatsapp,
+        ist_now
     )
 
     cursor.execute(query, values)
     connection.commit()
 
     donation_id = cursor.lastrowid
+
     receipt_no = f"GNY-{donation_id:05d}"
 
     update_query = """
@@ -79,7 +104,8 @@ def donate():
     cursor.close()
     connection.close()
 
-    current_date = datetime.now().strftime(
+    # Receipt date/time in IST
+    current_date = ist_now.strftime(
         "%d-%m-%Y | %I:%M %p"
     )
 
@@ -99,14 +125,13 @@ def donate():
 # -----------------------------
 @app.route("/admin")
 def admin():
+
     selected_date = request.args.get("date", "")
 
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    # -------------------------
     # Donations
-    # -------------------------
     if selected_date:
         cursor.execute("""
             SELECT
@@ -137,10 +162,7 @@ def admin():
 
     donations = cursor.fetchall()
 
-
-    # -------------------------
-    # Total Donors
-    # -------------------------
+    # Total donors
     if selected_date:
         cursor.execute("""
             SELECT COUNT(*)
@@ -155,10 +177,7 @@ def admin():
 
     total_donors = cursor.fetchone()[0]
 
-
-    # -------------------------
-    # Total Amount
-    # -------------------------
+    # Total amount
     if selected_date:
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
@@ -173,10 +192,7 @@ def admin():
 
     total_amount = cursor.fetchone()[0]
 
-
-    # -------------------------
-    # Cash
-    # -------------------------
+    # Cash amount
     if selected_date:
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
@@ -193,10 +209,7 @@ def admin():
 
     cash_amount = cursor.fetchone()[0]
 
-
-    # -------------------------
-    # UPI
-    # -------------------------
+    # UPI amount
     if selected_date:
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
@@ -213,10 +226,7 @@ def admin():
 
     upi_amount = cursor.fetchone()[0]
 
-
-    # -------------------------
-    # Bank Transfer
-    # -------------------------
+    # Bank Transfer amount
     if selected_date:
         cursor.execute("""
             SELECT COALESCE(SUM(amount), 0)
@@ -232,7 +242,6 @@ def admin():
         """)
 
     bank_amount = cursor.fetchone()[0]
-
 
     cursor.close()
     connection.close()
@@ -254,6 +263,7 @@ def admin():
 # -----------------------------
 @app.route("/admin/export")
 def export_csv():
+
     selected_date = request.args.get("date", "")
 
     connection = get_db_connection()
@@ -292,10 +302,6 @@ def export_csv():
     cursor.close()
     connection.close()
 
-
-    # -------------------------
-    # Create CSV
-    # -------------------------
     output = io.StringIO()
     writer = csv.writer(output)
 
@@ -320,14 +326,12 @@ def export_csv():
             donation[6]
         ])
 
-
     filename = "ganesh_donations"
 
     if selected_date:
         filename += "_" + selected_date
 
     filename += ".csv"
-
 
     return Response(
         output.getvalue(),
