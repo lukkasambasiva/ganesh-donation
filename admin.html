@@ -1,4 +1,5 @@
- <!DOCTYPE html>
+ ```html
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -241,15 +242,21 @@
                     </td>
 
                     <td>
+
                         {% if donation[5] == "Yes" %}
+
                             <span class="whatsapp-yes">
                                 ✓ Yes
                             </span>
+
                         {% else %}
+
                             <span class="whatsapp-no">
                                 ✕ No
                             </span>
+
                         {% endif %}
+
                     </td>
 
                     <td>
@@ -285,6 +292,32 @@
 
 
 </div>
+
+
+<!-- =========================
+     BOTTOM NAVIGATION
+========================= -->
+
+<nav class="bottom-nav">
+
+    <a href="/" class="nav-item">
+
+        <span class="nav-icon">🏠</span>
+
+        <span class="nav-text">Donate</span>
+
+    </a>
+
+
+    <a href="/admin" class="nav-item active">
+
+        <span class="nav-icon">📊</span>
+
+        <span class="nav-text">Dashboard</span>
+
+    </a>
+
+</nav>
 
 
 <script>
@@ -408,5 +441,5 @@ function searchTable() {
 
 
 </body>
-
 </html>
+```

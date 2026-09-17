@@ -592,3 +592,149 @@ tbody tr:hover {
         font-size: 19px;
     }
 }
+css
+/* =================================
+   BOTTOM NAVIGATION
+================================= */
+
+.bottom-nav {
+    display: flex;
+
+    position: fixed;
+
+    left: 50%;
+    bottom: 15px;
+
+    transform: translateX(-50%);
+
+    width: min(420px, calc(100% - 30px));
+
+    background: #fff8e7;
+
+    border: 3px solid #d49b2c;
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.3);
+
+    overflow: hidden;
+
+    z-index: 1000;
+}
+
+
+.nav-item {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 3px;
+
+    min-height: 62px;
+
+    text-decoration: none;
+
+    color: #54151b;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+
+.nav-icon {
+    font-size: 23px;
+    line-height: 1;
+}
+
+
+.nav-text {
+    line-height: 1.2;
+}
+
+
+.nav-item.active {
+    background: #8b0715;
+
+    color: #ffe29a;
+}
+
+
+.nav-item:hover {
+    background: #fff1c7;
+
+    color: #8b0715;
+}
+
+
+.nav-item.active:hover {
+    background: #8b0715;
+
+    color: #ffe29a;
+}
+
+
+/* =================================
+   SPACE FOR BOTTOM NAV
+================================= */
+
+.container {
+    padding-bottom: 105px;
+}
+
+
+/* =================================
+   DESKTOP
+================================= */
+
+@media (min-width: 601px) {
+
+    .bottom-nav {
+        width: 380px;
+
+        bottom: 20px;
+    }
+
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 600px) {
+
+    .bottom-nav {
+        bottom: 10px;
+
+        width: calc(100% - 20px);
+
+        border-width: 2px;
+
+        border-radius: 15px;
+    }
+
+
+    .nav-item {
+        min-height: 58px;
+
+        font-size: 12px;
+    }
+
+
+    .nav-icon {
+        font-size: 21px;
+    }
+
+
+    .container {
+        padding-bottom: 85px;
+    }
+
+}
+

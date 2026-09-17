@@ -1,9 +1,11 @@
- <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="te">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Ganesh Donation</title>
 
@@ -13,14 +15,110 @@
 
 <body>
 
-<div class="page">
+<!-- =========================================
+     HOME PAGE
+========================================= -->
+
+<div class="home-page" id="homePage">
+
+    <!-- Decorative background -->
+    <div class="temple-glow"></div>
+
+    <div class="home-content">
+
+        <!-- TEAM TITLE -->
+
+        <div class="title-area">
+
+            <div class="om-symbol">ॐ</div>
+
+            <h1>శ్రీ బాల గణేష్</h1>
+
+            <h2>మహోత్సవం</h2>
+
+            <div class="title-line"></div>
+
+        </div>
+
+
+        <!-- GANESH IMAGE -->
+
+        <div class="ganesh-area">
+
+            <img
+                src="{{ url_for('static', filename='ganesh-bg.png') }}"
+                alt="Lord Ganesha"
+                class="ganesh-image">
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="home-buttons">
+
+            <button
+                type="button"
+                class="home-btn donate-btn"
+                onclick="openDonation()">
+
+                <span class="button-icon">🙏</span>
+
+                <span class="button-text">
+                    Donate
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="home-btn dashboard-btn"
+                onclick="openDashboard()">
+
+                <span class="button-icon">📊</span>
+
+                <span class="button-text">
+                    Dashboard
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <div class="home-footer">
+            || శ్రీ గణేశాయ నమః ||
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     DONATION PAGE
+========================================= -->
+
+<div class="donation-page" id="donationPage">
 
     <div class="donation-card">
 
-        <!-- Header -->
+        <button
+            type="button"
+            class="back-btn"
+            onclick="goHome()">
+
+            ← Back
+
+        </button>
+
+
         <div class="header">
 
-            <div class="ganesh-symbol">🙏</div>
+            <div class="ganesh-symbol">
+                🙏
+            </div>
 
             <h1>శ్రీ బాల గణేష్</h1>
 
@@ -31,10 +129,8 @@
         </div>
 
 
-        <!-- Form -->
         <form action="/donate" method="POST">
 
-            <!-- Name -->
             <div class="form-group">
 
                 <label>Donor Name</label>
@@ -43,13 +139,11 @@
                     type="text"
                     name="donor_name"
                     placeholder="Enter donor name"
-                    required
-                >
+                    required>
 
             </div>
 
 
-            <!-- Phone -->
             <div class="form-group">
 
                 <label>Phone Number</label>
@@ -60,13 +154,11 @@
                     placeholder="Enter 10 digit phone number"
                     maxlength="10"
                     pattern="[0-9]{10}"
-                    required
-                >
+                    required>
 
             </div>
 
 
-            <!-- Amount -->
             <div class="form-group">
 
                 <label>Donation Amount</label>
@@ -80,20 +172,20 @@
                         name="amount"
                         placeholder="Enter amount"
                         min="1"
-                        required
-                    >
+                        required>
 
                 </div>
 
             </div>
 
 
-            <!-- Payment -->
             <div class="form-group">
 
                 <label>Payment Method</label>
 
-                <select name="payment_method" required>
+                <select
+                    name="payment_method"
+                    required>
 
                     <option value="">
                         Select Payment Method
@@ -116,7 +208,6 @@
             </div>
 
 
-            <!-- WhatsApp -->
             <div class="form-group">
 
                 <label>WhatsApp Available?</label>
@@ -128,8 +219,7 @@
                             type="radio"
                             name="whatsapp"
                             value="Yes"
-                            required
-                        >
+                            required>
                         Yes
                     </label>
 
@@ -137,8 +227,7 @@
                         <input
                             type="radio"
                             name="whatsapp"
-                            value="No"
-                        >
+                            value="No">
                         No
                     </label>
 
@@ -147,8 +236,9 @@
             </div>
 
 
-            <!-- Submit -->
-            <button type="submit">
+            <button
+                type="submit"
+                class="submit-btn">
 
                 🙏 Submit Donation
 
@@ -158,14 +248,46 @@
 
 
         <div class="footer-text">
-
             || శ్రీ గణేశాయ నమః ||
-
         </div>
 
     </div>
 
 </div>
 
+
+<script>
+
+function openDonation() {
+
+    document.getElementById("homePage").style.display = "none";
+
+    document.getElementById("donationPage").style.display = "flex";
+
+    window.scrollTo(0, 0);
+
+}
+
+
+function goHome() {
+
+    document.getElementById("donationPage").style.display = "none";
+
+    document.getElementById("homePage").style.display = "flex";
+
+    window.scrollTo(0, 0);
+
+}
+
+
+function openDashboard() {
+
+    window.location.href = "/admin";
+
+}
+
+</script>
+
 </body>
+
 </html>
